@@ -1,7 +1,5 @@
 using System;
 using System.Data;
-using System.IO;
-using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 
 namespace dbc_export
