@@ -1,0 +1,51 @@
+{
+    "definitions": [
+        {
+            "name": "CharStartOutfit",
+            "table": "charstartoutfit_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "RaceID", "type": "byte"},
+                {"name": "ClassID", "type": "byte"},
+                {"name": "SexID", "type": "byte"},
+                {"name": "OutfitID", "type": "byte"},
+                {"name": "ItemID", "type": "int","array": true,"size": 24},
+                {"name": "DisplayItemID", "type": "int", "array": true, "size": 24},
+                {"name": "InventoryType", "type": "int", "array": true, "size": 24}
+            ]
+        },
+        {
+            "name": "CharBaseInfo",
+            "table": "charbaseinfo_dbc",
+            "fields": [
+                {"name": "ID", "type": "int", "index": true, "autogenerate": true},
+                {"name": "RaceID", "type": "byte"},
+                {"name": "ClassID", "type": "byte"}
+            ]
+        },
+        {
+            "name": "Map",
+            "table": "map_dbc",
+            "fields": [
+                {"name": "ID", "type": "int", "index": true},
+                {"name": "Directory", "type": "string"},
+                {"name": "InstanceType", "type": "int"},
+                {"name": "Flags", "type": "int"},
+                {"name": "PVP", "type": "int"},
+                {"name": "MapName_Lang", "type": "loc"},
+                {"name": "AreaTableID", "type": "int"},
+                {"name": "MapDescription0_Lang", "type": "loc"},
+                {"name": "MapDescription1_Lang", "type": "loc"},
+                {"name": "LoadingScreenID", "type": "int"},
+                {"name": "MinimapIconScale", "type": "float"},
+                {"name": "CorpseMapID", "type": "int"},
+                {"name": "CorpseX", "type": "float"},
+                {"name": "CorpseY", "type": "float"},
+                {"name": "TimeOfDayOverride", "type": "int"},
+                {"name": "ExpansionID", "type": "int"},
+                {"name": "RaidOffset", "type": "int"},
+                {"name": "MaxPlayers", "type": "int"}
+            ]
+        }
+    ]
+}
