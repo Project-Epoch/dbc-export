@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+
 namespace dbc_export
 {
     class Header
@@ -20,9 +23,15 @@ namespace dbc_export
             this.StringBlockSize = StringBlockSize;
         }
 
-        public void Write()
+        public void Write(BinaryWriter writer)
         {
-            // TODO FIGURE THIS OUT. BYTESTREAM?
+            writer.Write(System.Text.Encoding.UTF8.GetBytes("WDBC"));
+
+            writer.Write(RecordCount);
+
+            writer.Write(FieldCount);
+
+            writer.Write((uint)1);
         }
     }
 }

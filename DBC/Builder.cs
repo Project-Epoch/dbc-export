@@ -28,7 +28,22 @@ namespace dbc_export
             Console.WriteLine(String.Format("Beginning Export of {0}", definition.Name));
 
             GenerateExtraFields();
-            GetFromDatabase();
+
+            List<Entry> entries;
+
+            try
+            {
+                entries = GetFromDatabase();
+            }
+            catch (DataNotFoundException)
+            {
+                Console.WriteLine(String.Format("No Data found for {0} in table {1}", definition.Name, definition.Table));
+
+                return;
+            }
+            
+            Writer writer = new Writer(definition, entries);
+            writer.Run();
         }
 
         private void GenerateExtraFields()
@@ -87,7 +102,7 @@ namespace dbc_export
             definition.Fields = newFields;
         }
 
-        private void GetFromDatabase()
+        private List<Entry> GetFromDatabase()
         {
             string fields = "";
 
@@ -106,11 +121,9 @@ namespace dbc_export
 
             if (! result.HasRows) 
             {
-                Console.WriteLine(String.Format("No Data found for {0} in table {1}", definition.Name, definition.Table));
-
                 result.Close();
 
-                return;
+                throw new DataNotFoundException();
             }
 
             List<Entry> entries = new List<Entry>();
@@ -149,6 +162,8 @@ namespace dbc_export
             Console.WriteLine("Retrieved {0} Rows for {1}", rows, definition.Name);
 
             result.Close();
+
+            return entries;
         }
 
         private bool TableExists()
