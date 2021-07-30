@@ -97,6 +97,17 @@ namespace dbc_export
                         Size = 1,
                     });
                 }
+
+                // Mask field
+                newFields.Add(new Field {
+                    Name = String.Format("{0}_Mask", field.Name),
+                    Type = field.Type,
+                    Index = field.Index,
+                    Autogenerate = field.Autogenerate,
+                    Array = false,
+                    Size = 1,
+                    InQuery = false,
+                });
             }
 
             definition.Fields = newFields;
@@ -137,21 +148,10 @@ namespace dbc_export
                 {
                     Console.WriteLine(result[i].GetType().ToString());
 
-                    // Field field = definition.Fields[i];
-                    // var value = result[i];
-
-                    // // Figure out a generic type.
-                    // Type type = typeof(Value<>).MakeGenericType(field.GetParsedType());
-
-                    // // Create instance using that generic type
-                    // dynamic column = Activator.CreateInstance(type);
-
-                    // // Store data and field with the actual type.
-                    // column.Field = field;
-                    // column.Data = Convert.ChangeType(value, type);
-
-                    // // add to row
-                    // entry.Values.Add(column);
+                    entry.Values.Add(new Value {
+                        Field = definition.Fields[i],
+                        Data = result[i],
+                    });
                 }
 
                 entries.Add(entry);

@@ -21,11 +21,26 @@ namespace dbc_export
             this.FieldCount = FieldCount;
             this.RecordSize = RecordSize;
             this.StringBlockSize = StringBlockSize;
+            this.Magic =  1128416343; // Magic is always 'WDBC' https://wowdev.wiki/DBC
+        }
+
+        public uint GetHeaderLength()
+        {
+            return sizeof(uint) * 5;
+        }
+
+        public uint GenerateStringOffsets(List<Entry> Entries)
+        {
+            uint offset = 1;
+
+            
+
+            return offset;
         }
 
         public void Write(BinaryWriter writer)
         {
-            writer.Write(System.Text.Encoding.UTF8.GetBytes("WDBC"));
+            writer.Write(Magic);
 
             writer.Write(RecordCount);
 

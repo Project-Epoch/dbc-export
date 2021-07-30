@@ -1,9 +1,9 @@
 namespace dbc_export
 {
-    class Value<T>
+    class Value
     {
         public Field Field { get; set; }
         
-        public T Data {get; set; }
+        public object Data {get; set; }
     }
 }

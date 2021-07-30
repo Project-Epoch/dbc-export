@@ -45,6 +45,12 @@ namespace dbc_export
         /// <value></value>
         public bool Autogenerate { get; set; } = false;
 
+        /// <summary>
+        /// Should we query this field?
+        /// </summary>
+        /// <value></value>
+        public bool InQuery { get; set; } = true;
+
         public Type GetParsedType()
         {
             switch (Type.ToLower())

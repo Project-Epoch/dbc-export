@@ -20,14 +20,33 @@ namespace dbc_export
             string outputPath = String.Format("{0}/built/{1}.dbc", Directory.GetCurrentDirectory(), definition.Name);
 
             Directory.CreateDirectory(String.Format("{0}/built", Directory.GetCurrentDirectory()));
+            uint size = 0;
 
-            Header header = new Header((uint) entries.Count, (uint) definition.Fields.Count, 00000, 1);
+            foreach (Entry entry in entries)
+            {
+                size += entry.CalculateSize();
+            }
 
             using (var fileStream = new FileStream(outputPath, FileMode.Create))
             using (var memoryStream = new MemoryStream())
             using (var binaryWriter = new BinaryWriter(memoryStream))
             {
+                /** Write Dummy Header */
+                Header header = new Header(1, 1, 1, 1);
                 header.Write(binaryWriter);
+
+                // Write each record
+                foreach (Entry entry in entries)
+                {
+                    foreach (object value in entry.Values)
+                    {
+                        Value obj = (Value) value;
+
+                        binaryWriter.Write(obj.Data.);
+                    }
+                }
+
+                // write real header. Todo
 
                 // Finish Up
                 memoryStream.Position = 0;
