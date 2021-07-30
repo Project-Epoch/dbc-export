@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using MySqlConnector;
+using Newtonsoft.Json;
 
 namespace dbc_export
 {
@@ -42,23 +42,38 @@ namespace dbc_export
 
             Console.WriteLine(String.Format("Connected to DB - MySQL {0}", db.GetConnection().ServerVersion));
 
-            MySqlCommand command = new MySqlCommand("SELECT entry, name FROM creature_template", db.GetConnection());
+            ParsedDefinitions parsedDefinitions;
 
-            MySqlDataReader result = command.ExecuteReader();
-
-            int rows = 0;
-            while (result.Read())
+            /** Deserialize definitions from disk */
+            using (StreamReader file = File.OpenText(Directory.GetCurrentDirectory() + "/definitions.json"))
             {
-                Console.WriteLine(result[0]+" -- "+result[1]);
-
-                rows++;
+                parsedDefinitions = JsonConvert.DeserializeObject<ParsedDefinitions>(file.ReadToEnd());
             }
 
-            Console.WriteLine(String.Format("Found {0} Rows.", rows));
+            foreach (Definition definition in parsedDefinitions.definitions)
+            {
+                Builder builder = new Builder(db.GetConnection(), definition);
 
-            result.Close();
+                builder.Run();
+            }
 
-            Console.WriteLine("Finished Query");
+            // MySqlCommand command = new MySqlCommand("SELECT entry, name FROM creature_template", db.GetConnection());
+
+            // MySqlDataReader result = command.ExecuteReader();
+
+            // int rows = 0;
+            // while (result.Read())
+            // {
+            //     Console.WriteLine(result[0]+" -- "+result[1]);
+
+            //     rows++;
+            // }
+
+            // Console.WriteLine(String.Format("Found {0} Rows.", rows));
+
+            // result.Close();
+
+            // Console.WriteLine("Finished Query");
 
             db.Disconnect();
         }
