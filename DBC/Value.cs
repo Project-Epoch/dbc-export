@@ -1,3 +1,5 @@
+using System;
+
 namespace dbc_export
 {
     class Value

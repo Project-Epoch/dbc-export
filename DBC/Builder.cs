@@ -143,11 +143,10 @@ namespace dbc_export
             while (result.Read())
             {
                 Entry entry = new Entry();
+                entry.Values = new List<Value>();
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    Console.WriteLine(result[i].GetType().ToString());
-
                     entry.Values.Add(new Value {
                         Field = definition.Fields[i],
                         Data = result[i],
