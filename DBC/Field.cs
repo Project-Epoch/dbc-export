@@ -33,24 +33,6 @@ namespace dbc_export
         /// <value></value>
         public int Size { get; set; } = 1;
 
-        /// <summary>
-        /// Whether this field is an index.
-        /// </summary>
-        /// <value></value>
-        public bool Index { get; set; } = false;
-
-        /// <summary>
-        /// If it is an index do we need to automatically generate it?
-        /// </summary>
-        /// <value></value>
-        public bool Autogenerate { get; set; } = false;
-
-        /// <summary>
-        /// Should we query this field?
-        /// </summary>
-        /// <value></value>
-        public bool InQuery { get; set; } = true;
-
         public Type GetParsedType()
         {
             switch (Type.ToLower())

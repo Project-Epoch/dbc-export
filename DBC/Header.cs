@@ -7,13 +7,15 @@ namespace dbc_export
     {
         private uint Magic;
 
-        private uint RecordCount;
+        public uint RecordCount { get; set; }
 
-        private uint FieldCount;
+        public uint FieldCount { get; set; }
 
-        private uint RecordSize;
+        public uint RecordSize { get; set; }
 
-        private uint StringBlockSize;
+        public uint StringBlockSize { get; set; }
+
+        public uint StringBlockOffset { get; set; }
 
         public Header(uint RecordCount, uint FieldCount, uint RecordSize, uint StringBlockSize)
         {
@@ -22,16 +24,6 @@ namespace dbc_export
             this.RecordSize = RecordSize;
             this.StringBlockSize = StringBlockSize;
             this.Magic =  1128416343; // Magic is always 'WDBC' https://wowdev.wiki/DBC
-        }
-
-        public uint GetRecordCount()
-        {
-            return RecordCount;
-        }
-
-        public uint GetRecordSize()
-        {
-            return RecordSize;
         }
 
         public uint GetHeaderLength()

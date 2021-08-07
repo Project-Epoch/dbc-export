@@ -1,6 +1,14 @@
 {
     "definitions": [
         {
+            "name": "CharBaseInfo",
+            "table": "charbaseinfo_dbc",
+            "fields": [
+                {"name": "RaceID", "type": "byte"},
+                {"name": "ClassID", "type": "byte"}
+            ]
+        },
+        {
             "name": "CharStartOutfit",
             "table": "charstartoutfit_dbc",
             "fields": [
@@ -15,19 +23,31 @@
             ]
         },
         {
-            "name": "CharBaseInfo",
-            "table": "charbaseinfo_dbc",
+            "name": "CharTitles",
+            "table": "chartitles_dbc",
             "fields": [
-                {"name": "ID", "type": "int", "index": true, "autogenerate": true},
-                {"name": "RaceID", "type": "byte"},
-                {"name": "ClassID", "type": "byte"}
+                {"name": "ID", "type": "int"},
+                {"name": "Condition_ID", "type": "int"},
+                {"name": "Name_Lang", "type": "loc"},
+                {"name": "Name1_Lang", "type": "loc"},
+                {"name": "Mask_ID", "type": "int"}
+            ]
+        },
+        {
+            "name": "CurrencyTypes",
+            "table": "currencytypes_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "ItemID", "type": "int"},
+                {"name": "CategoryID", "type": "int"},
+                {"name": "BitIndex", "type": "int"}
             ]
         },
         {
             "name": "Map",
             "table": "map_dbc",
             "fields": [
-                {"name": "ID", "type": "int", "index": true},
+                {"name": "ID", "type": "int"},
                 {"name": "Directory", "type": "string"},
                 {"name": "InstanceType", "type": "int"},
                 {"name": "Flags", "type": "int"},

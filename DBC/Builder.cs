@@ -71,8 +71,6 @@ namespace dbc_export
                         newFields.Add(new Field {
                             Name = String.Format("{0}_{1}", field.Name, i + 1),
                             Type = field.Type,
-                            Index = field.Index,
-                            Autogenerate = field.Autogenerate,
                             Array = false,
                             Size = 1,
                         });
@@ -86,13 +84,9 @@ namespace dbc_export
 
                 for (int i = 0; i < languages.Length; i++)
                 {
-                    var blah = String.Format("{0}_{1}", field.Name, languages.GetValue(i).ToString());
-
                     newFields.Add(new Field {
                         Name = String.Format("{0}_{1}", field.Name, languages.GetValue(i).ToString()),
-                        Type = field.Type,
-                        Index = field.Index,
-                        Autogenerate = field.Autogenerate,
+                        Type = "string",
                         Array = false,
                         Size = 1,
                     });
@@ -101,12 +95,9 @@ namespace dbc_export
                 // Mask field
                 newFields.Add(new Field {
                     Name = String.Format("{0}_Mask", field.Name),
-                    Type = field.Type,
-                    Index = field.Index,
-                    Autogenerate = field.Autogenerate,
+                    Type = "uint",
                     Array = false,
                     Size = 1,
-                    InQuery = false,
                 });
             }
 
