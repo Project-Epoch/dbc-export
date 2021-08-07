@@ -4,8 +4,16 @@ namespace dbc_export
 {
     class Entry
     {
+		/// <summary>
+		/// The values (columns) for this row.
+		/// </summary>
+		/// <value></value>
         public List<Value> Values { get; set; }
 
+		/// <summary>
+		/// Based on the data types within an entry figure out it's size in bytes.
+		/// </summary>
+		/// <returns></returns>
         public uint CalculateSize()
         {
             uint size = 0;

@@ -1,5 +1,8 @@
 namespace dbc_export
 {
+    /// <summary>
+    /// Supported Localization Languages.
+    /// </summary>
     enum Languages
     {
         enUS,

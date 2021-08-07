@@ -33,6 +33,10 @@ namespace dbc_export
         /// <value></value>
         public int Size { get; set; } = 1;
 
+        /// <summary>
+        /// Parse the supported types into a native type.
+        /// </summary>
+        /// <returns></returns>
         public Type GetParsedType()
         {
             switch (Type.ToLower())

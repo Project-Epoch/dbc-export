@@ -15,6 +15,14 @@ namespace dbc_export
 
         private MySqlConnection connection;
 
+        /// <summary>
+        /// Build an instance of the Database Connection Handler.
+        /// </summary>
+        /// <param name="host">The hostname / IP we should use.</param>
+        /// <param name="port">The port the database is active on.</param>
+        /// <param name="user">The username to use.</param>
+        /// <param name="pass">The password to use.</param>
+        /// <param name="world">The name of the Azeroth-Core world database.</param>
         public Database(string host, int port, string user, string pass, string world)
         {
             this.host = host;
@@ -24,6 +32,10 @@ namespace dbc_export
             this.world = world;
         }
 
+        /// <summary>
+        /// Begins the process of connecting to the MySQL Database.
+        /// </summary>
+        /// <returns></returns>
         public bool Connect()
         {
             string credentials = String.Format(
@@ -43,11 +55,19 @@ namespace dbc_export
             return connection.State == ConnectionState.Open;
         }
 
+        /// <summary>
+        /// Get the active MySQL Connection instance.
+        /// </summary>
+        /// <returns>Connection.</returns>
         public MySqlConnection GetConnection()
         {
             return this.connection;
         }
 
+        /// <summary>
+        /// Simply Disconnects the current MySQL Connection Instance.
+        /// </summary>
+        /// <returns></returns>
         public bool Disconnect()
         {
             this.connection.Dispose();

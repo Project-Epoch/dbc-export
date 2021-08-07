@@ -10,12 +10,20 @@ namespace dbc_export
 
         private MySqlConnection connection;
 
+        /// <summary>
+        /// Create the DBC File Builder instance.
+        /// </summary>
+        /// <param name="connection">The active MySQL Connection.</param>
+        /// <param name="definition">The DBC definition we're using.</param>
         public Builder(MySqlConnection connection, Definition definition)
         {
             this.connection = connection;
             this.definition = definition;
         }
 
+        /// <summary>
+        /// Execute the Builder.
+        /// </summary>
         public void Run()
         {
             if (! TableExists())
@@ -46,6 +54,9 @@ namespace dbc_export
             writer.Run();
         }
 
+        /// <summary>
+        /// Parses the definitions fields to figure out if we need to add extra fields eg for localisation or array fields.
+        /// </summary>
         private void GenerateExtraFields()
         {
             List<Field> newFields = new List<Field>();
@@ -54,7 +65,7 @@ namespace dbc_export
             {
                 if (! field.Array)
                 {
-                    // Not an array or localisation, just add as a singular field.
+                    /** Not an array or localisation, just add as a singular field. */
                     if (field.Type.ToLower() != "loc")
                     {
                         newFields.Add(field);
@@ -63,7 +74,7 @@ namespace dbc_export
                     }
                 }
 
-                // Not localisation but is an array. Add array fields. 
+                /** Not localisation but is an array. Add array fields. */
                 if (field.Type.ToLower() != "loc")
                 {
                     for (int i = 0; i < field.Size; i++)
@@ -79,9 +90,10 @@ namespace dbc_export
                     continue;
                 }
                 
-                // Must be localisation now.
+                /** Must be localisation now, get the languages. */
                 Array languages = Enum.GetValues(typeof(Languages));
 
+                /** For each language add a new field that has the format "{field_name}_{language}" */
                 for (int i = 0; i < languages.Length; i++)
                 {
                     newFields.Add(new Field {
@@ -92,7 +104,7 @@ namespace dbc_export
                     });
                 }
 
-                // Mask field
+                /** Localisation always ends with a "Mask" field */
                 newFields.Add(new Field {
                     Name = String.Format("{0}_Mask", field.Name),
                     Type = "uint",
@@ -104,6 +116,10 @@ namespace dbc_export
             definition.Fields = newFields;
         }
 
+        /// <summary>
+        /// Queries the data from the DB and then parses it into entries.
+        /// </summary>
+        /// <returns>A list of each new DBC file entry (row).</returns>
         private List<Entry> GetFromDatabase()
         {
             string fields = "";
@@ -156,6 +172,10 @@ namespace dbc_export
             return entries;
         }
 
+        /// <summary>
+        /// Check to see if the table exists for a definition.
+        /// </summary>
+        /// <returns></returns>
         private bool TableExists()
         {
             MySqlCommand query = new MySqlCommand(string.Format("SHOW TABLES LIKE '{0}'", definition.Table), connection);
