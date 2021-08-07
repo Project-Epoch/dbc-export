@@ -50,7 +50,15 @@ namespace dbc_export
             Console.WriteLine(String.Format("Attempting Connection with Details - {0}", credentials));
 
             this.connection = new MySqlConnection(credentials);
-            this.connection.Open();
+
+            try
+            {
+                this.connection.Open();
+            }
+            catch (MySqlConnector.MySqlException)
+            {
+                return false;
+            }
 
             return connection.State == ConnectionState.Open;
         }
