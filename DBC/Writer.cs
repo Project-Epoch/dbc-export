@@ -81,60 +81,68 @@ namespace dbc_export
                 {
                     Value obj = (Value) value;
 
-                    switch (obj.Field.Type.ToLower())
+                    try
                     {
-                        case "sbyte":
-                            binaryWriter.Write((sbyte) obj.Data);
-                            break;
-                        case "byte":
-                            binaryWriter.Write((byte) obj.Data);
-                            break;
-                        case "int32":
-                        case "int":
-                            binaryWriter.Write((int) obj.Data);
-                            break;
-                        case "uint32":
-                        case "uint":
-                            binaryWriter.Write((uint) obj.Data);
-                            break;
-                        case "int64":
-                        case "long":
-                            binaryWriter.Write((long) obj.Data);
-                            break;
-                        case "uint64":
-                        case "ulong":
-                            binaryWriter.Write((ulong) obj.Data);
-                            break;
-                        case "single":
-                        case "float":
-                            binaryWriter.Write((float) obj.Data);
-                            break;
-                        case "boolean":
-                        case "bool":
-                            binaryWriter.Write((bool) obj.Data);
-                            break;
-                        case "string":
-                            string data = ((string) obj.Data).Replace("\'", "'");
+                        switch (obj.Field.Type.ToLower())
+                        {
+                            case "sbyte":
+                                binaryWriter.Write((sbyte) obj.Data);
+                                break;
+                            case "byte":
+                                binaryWriter.Write((byte) obj.Data);
+                                break;
+                            case "int32":
+                            case "int":
+                                binaryWriter.Write((int) Convert.ToInt32(obj.Data));
+                                break;
+                            case "uint32":
+                            case "uint":
+                                binaryWriter.Write((uint) obj.Data);
+                                break;
+                            case "int64":
+                            case "long":
+                                binaryWriter.Write((long) obj.Data);
+                                break;
+                            case "uint64":
+                            case "ulong":
+                                binaryWriter.Write((ulong) obj.Data);
+                                break;
+                            case "single":
+                            case "float":
+                                binaryWriter.Write((float) obj.Data);
+                                break;
+                            case "boolean":
+                            case "bool":
+                                binaryWriter.Write((bool) obj.Data);
+                                break;
+                            case "string":
+                                string data = ((string) obj.Data).Replace("\'", "'");
 
-                            binaryWriter.Write(header.StringBlockSize);
-                            long startPoint = binaryWriter.BaseStream.Position;
+                                binaryWriter.Write(header.StringBlockSize);
+                                long startPoint = binaryWriter.BaseStream.Position;
 
-                            binaryWriter.Seek((int) header.StringBlockOffset + (int) header.StringBlockSize, SeekOrigin.Begin);
-                            string final = data + "\0";
-                            byte[] converted = Encoding.UTF8.GetBytes(final);
-                            binaryWriter.Write(converted);
-                            header.StringBlockSize += (uint) converted.Length;
-                            binaryWriter.Seek((int) startPoint, SeekOrigin.Begin);
+                                binaryWriter.Seek((int) header.StringBlockOffset + (int) header.StringBlockSize, SeekOrigin.Begin);
+                                string final = data + "\0";
+                                byte[] converted = Encoding.UTF8.GetBytes(final);
+                                binaryWriter.Write(converted);
+                                header.StringBlockSize += (uint) converted.Length;
+                                binaryWriter.Seek((int) startPoint, SeekOrigin.Begin);
 
-                            break;
-                        case "int16":
-                        case "short":
-                            binaryWriter.Write((short) obj.Data);
-                            break;
-                        case "uint16":
-                        case "ushort":
-                            binaryWriter.Write((ushort) obj.Data);
-                            break;
+                                break;
+                            case "int16":
+                            case "short":
+                                binaryWriter.Write((short) obj.Data);
+                                break;
+                            case "uint16":
+                            case "ushort":
+                                binaryWriter.Write((ushort) obj.Data);
+                                break;
+                        }
+                    }
+                    catch (System.InvalidCastException)
+                    {
+                        Console.WriteLine("Failed to write field {0} to dbc type {1} from database type {2}", obj.Field.Name, obj.Field.Type, obj.Data.GetType());
+                        throw;
                     }
                 }
             }

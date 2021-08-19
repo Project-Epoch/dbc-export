@@ -44,6 +44,20 @@
             ]
         },
         {
+            "name": "Item",
+            "table": "item_template",
+            "fields": [
+                {"name": "entry", "type": "int"},
+                {"name": "class", "type": "int"},
+                {"name": "subclass", "type": "int"},
+                {"name": "SoundOverrideSubclass", "type": "int"},
+                {"name": "Material", "type": "int"},
+                {"name": "displayid", "type": "int"},
+                {"name": "InventoryType", "type": "int"},
+                {"name": "sheath ", "type": "int"}
+            ]
+        },
+        {
             "name": "Map",
             "table": "map_dbc",
             "fields": [
