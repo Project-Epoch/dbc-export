@@ -7,11 +7,10 @@ APP_DIR=$START_DIR/built/app
 rm -rf $START_DIR/bin
 rm -rf $APP_DIR
 
-dotnet build --configuration Release
+dotnet publish --configuration Release --self-contained false
 
 mkdir -p built/app
 
-mv $BINARIES_DIR/dbc-export.exe $APP_DIR
 mv $BINARIES_DIR/dbc-export.dll $APP_DIR
 mv $BINARIES_DIR/dbc-export.runtimeconfig.json $APP_DIR
 mv $BINARIES_DIR/Microsoft.Extensions.* $APP_DIR
