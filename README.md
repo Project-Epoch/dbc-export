@@ -23,17 +23,3 @@ Fill in the following:
 1. Ensure that you have installed the [.NET Core SDK x64](https://dotnet.microsoft.com/download) for your OS (Windows, OSX, Linux).
 2. From a terminal execute `dotnet restore`.
 3. From a terminal execute `dotnet run`.
-
-### From Release
-
-1. Ensure that you have installed the [.NET Core Runtime](https://dotnet.microsoft.com/download)
-2. Extract the `dbc-exporter.zip` to a location of your choosing.
-3. From a terminal execute `cd dbc-exporter`.
-
-**Windows:**  
-
-Either double click `dbc-export.exe` or execute from Git Bash eg `./dbc-export.exe`.
-
-**Linux:**  
-
-From a terminal execute `./dbc-exporter`.
