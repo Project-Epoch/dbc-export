@@ -97,7 +97,7 @@ namespace dbc_export
                                 break;
                             case "uint32":
                             case "uint":
-                                binaryWriter.Write((uint) obj.Data);
+                                binaryWriter.Write((uint) Convert.ToUInt32(obj.Data));
                                 break;
                             case "int64":
                             case "long":
@@ -116,6 +116,11 @@ namespace dbc_export
                                 binaryWriter.Write((bool) obj.Data);
                                 break;
                             case "string":
+                                if (obj.Data == DBNull.Value)
+                                {
+                                    obj.Data = (string) "";
+                                }
+
                                 string data = ((string) obj.Data).Replace("\'", "'");
 
                                 binaryWriter.Write(header.StringBlockSize);
