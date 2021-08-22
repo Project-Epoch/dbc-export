@@ -195,6 +195,14 @@
                 {"name": "SpellDescriptionVariableID", "type": "uint"},
                 {"name": "SpellDifficultyID", "type": "uint"}
             ]
+        },
+        {
+            "name": "SpellFocusObject",
+            "table": "spellfocusobject_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "Name_Lang", "type": "loc"}
+            ]
         }
     ]
 }
