@@ -24,6 +24,21 @@
             ]
         },
         {
+            "name": "BattlemasterList",
+            "table": "battlemasterlist_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "MapID", "type": "int", "array": true,"size": 8},
+                {"name": "InstanceType", "type": "int"},
+                {"name": "GroupsAllowed", "type": "int"},
+                {"name": "Name_Lang", "type": "loc"},
+                {"name": "MaxGroupSize", "type": "int"},
+                {"name": "HolidayWorldState", "type": "int"},
+                {"name": "Minlevel", "type": "int"},
+                {"name": "Maxlevel", "type": "int"}
+            ]
+        },
+        {
             "name": "CharBaseInfo",
             "table": "charbaseinfo_dbc",
             "fields": [
