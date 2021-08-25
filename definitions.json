@@ -1,6 +1,29 @@
 {
     "definitions": [
         {
+            "name": "AreaTable",
+            "table": "areatable_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "ContinentID", "type": "int"},
+                {"name": "ParentAreaID", "type": "int"},
+                {"name": "AreaBit", "type": "int"},
+                {"name": "Flags", "type": "int"},
+                {"name": "SoundProviderPref", "type": "int"},
+                {"name": "SoundProviderPrefUnderwater", "type": "int"},
+                {"name": "AmbienceID", "type": "int"},
+                {"name": "ZoneMusic", "type": "int"},
+                {"name": "IntroSound", "type": "int"},
+                {"name": "ExplorationLevel", "type": "int"},
+                {"name": "AreaName_Lang", "type": "loc"},
+                {"name": "FactionGroupMask", "type": "int"},
+                {"name": "LiquidTypeID", "type": "int", "array": true,"size": 4},
+                {"name": "MinElevation", "type": "float"},
+                {"name": "Ambient_Multiplier", "type": "float"},
+                {"name": "Lightid", "type": "int"}
+            ]
+        },
+        {
             "name": "CharBaseInfo",
             "table": "charbaseinfo_dbc",
             "fields": [
