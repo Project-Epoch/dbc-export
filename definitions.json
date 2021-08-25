@@ -82,6 +82,18 @@
             ]
         },
         {
+            "name": "PvpDifficulty",
+            "table": "pvpdifficulty_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "MapID", "type": "int"},
+                {"name": "RangeIndex", "type": "int"},
+                {"name": "MinLevel", "type": "int"},
+                {"name": "MaxLevel", "type": "int"},
+                {"name": "Difficulty", "type": "int"}
+            ]
+        },
+        {
             "name": "Spell",
             "table": "spell_dbc",
             "fields": [
