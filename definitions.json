@@ -120,6 +120,20 @@
             ]
         },
         {
+            "name": "Light",
+            "table": "light_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "ContinentID", "type": "int"},
+                {"name": "X", "type": "float"},
+                {"name": "Y", "type": "float"},
+                {"name": "Z", "type": "float"},
+                {"name": "FalloffStart", "type": "float"},
+                {"name": "FalloffEnd", "type": "float"},
+                {"name": "LightParamsID", "type": "int", "array": true, "size": 8}
+            ]
+        },
+        {
             "name": "PvpDifficulty",
             "table": "pvpdifficulty_dbc",
             "fields": [
