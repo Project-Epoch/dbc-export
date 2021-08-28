@@ -283,6 +283,18 @@
                 {"name": "ID", "type": "int"},
                 {"name": "Name_Lang", "type": "loc"}
             ]
+        },
+        {
+            "name": "WorldSafeLocs",
+            "table": "worldsafelocs_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "Continent", "type": "int"},
+                {"name": "LocX", "type": "float"},
+                {"name": "LocY", "type": "float"},
+                {"name": "LocZ", "type": "float"},
+                {"name": "AreaName_Lang", "type": "loc"}
+            ]
         }
     ]
 }
