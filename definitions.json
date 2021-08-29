@@ -1,6 +1,57 @@
 {
     "definitions": [
         {
+            "name": "Achievement",
+            "table": "achievement_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "Faction", "type": "int"},
+                {"name": "Instance_Id", "type": "int"},
+                {"name": "Supercedes", "type": "int"},
+                {"name": "Title_Lang", "type": "loc"},
+                {"name": "Description_Lang", "type": "loc"},
+                {"name": "Category", "type": "int"},
+                {"name": "Points", "type": "int"},
+                {"name": "Ui_Order", "type": "int"},
+                {"name": "Flags", "type": "int"},
+                {"name": "IconID", "type": "int"},
+                {"name": "Reward_Lang", "type": "loc"},
+                {"name": "Minimum_Criteria", "type": "int"},
+                {"name": "Shares_Criteria", "type": "int"}
+            ]
+        },
+        {
+            "name": "Achievement_Category",
+            "table": "achievement_category_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "Parent", "type": "int"},
+                {"name": "Name_Lang", "type": "loc"},
+                {"name": "Ui_Order", "type": "int"}
+            ]
+        },
+        {
+            "name": "Achievement_Criteria",
+            "table": "achievement_criteria_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "Achievement_Id", "type": "int"},
+                {"name": "Type", "type": "int"},
+                {"name": "Asset_Id", "type": "int"},
+                {"name": "Quantity", "type": "int"},
+                {"name": "Start_Event", "type": "int"},
+                {"name": "Start_Asset", "type": "int"},
+                {"name": "Fail_Event", "type": "int"},
+                {"name": "Fail_Asset", "type": "int"},
+                {"name": "Description_Lang", "type": "loc"},
+                {"name": "Flags", "type": "int"},
+                {"name": "Timer_Start_Event", "type": "int"},
+                {"name": "Timer_Asset_Id", "type": "int"},
+                {"name": "Timer_Time", "type": "int"},
+                {"name": "Ui_Order", "type": "int"}
+            ]
+        },
+        {
             "name": "AreaTable",
             "table": "areatable_dbc",
             "fields": [
