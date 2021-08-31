@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-
+using CLIHelpers;
 namespace dbc_export
 {
     class Program
@@ -12,8 +12,9 @@ namespace dbc_export
             string path = Directory.GetCurrentDirectory() + "/appsettings.json";
 
             /** Check for config */
-            if (! File.Exists(path)) {
-                Console.WriteLine("Could not find 'appsettings.json'! Exiting.");
+            if (!File.Exists(path))
+            {
+                Logger.Danger("Could not find 'appsettings.json'! Exiting.");
 
                 Environment.Exit(-1);
             }
@@ -32,13 +33,14 @@ namespace dbc_export
                 config["WORLD_DB"]
             );
 
-            if (! db.Connect()) {
-                Console.WriteLine("Failed to connect to DB! Exiting...");
+            if (!db.Connect())
+            {
+                Logger.Danger("Failed to connect to DB! Exiting...");
 
                 Environment.Exit(-1);
             }
 
-            Console.WriteLine(String.Format("Connected to DB - MySQL {0}", db.GetConnection().ServerVersion));
+            Logger.Success(String.Format("Connected to DB - MySQL {0}\n", db.GetConnection().ServerVersion));
 
             ParsedDefinitions parsedDefinitions;
 

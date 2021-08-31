@@ -1,6 +1,8 @@
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using CLIHelpers;
+using System.IO;
 
 namespace dbc_export
 {
@@ -26,14 +28,12 @@ namespace dbc_export
         /// </summary>
         public void Run()
         {
-            if (! TableExists())
+            if (!TableExists())
             {
-                Console.WriteLine(String.Format("Could not find matching table for {0} ({1})! Skipping.", definition.Name, definition.Table));
+                Logger.Danger(String.Format("Could not find matching table for {0} ({1})! Skipping.\n", definition.Name, definition.Table));
 
                 return;
             }
-
-            Console.WriteLine(String.Format("Beginning Export of {0}", definition.Name));
 
             GenerateExtraFields();
 
@@ -45,11 +45,14 @@ namespace dbc_export
             }
             catch (DataNotFoundException)
             {
-                Console.WriteLine(String.Format("No Data found for {0} in table {1}", definition.Name, definition.Table));
+                Logger.Danger(String.Format("No Data found for {0} in table {1}! Skipping.\n", definition.Name, definition.Table));
 
                 return;
             }
-            
+
+            Logger.Info(String.Format("Beginning Export of {0} to {1}/built/{2}.dbc\n", definition.Name, Directory.GetCurrentDirectory(), definition.Name));
+
+
             Writer writer = new Writer(definition, entries);
             writer.Run();
         }
@@ -63,7 +66,7 @@ namespace dbc_export
 
             foreach (Field field in definition.Fields)
             {
-                if (! field.Array)
+                if (!field.Array)
                 {
                     /** Not an array or localisation, just add as a singular field. */
                     if (field.Type.ToLower() != "loc")
@@ -79,7 +82,8 @@ namespace dbc_export
                 {
                     for (int i = 0; i < field.Size; i++)
                     {
-                        newFields.Add(new Field {
+                        newFields.Add(new Field
+                        {
                             Name = String.Format("{0}_{1}", field.Name, i + 1),
                             Type = field.Type,
                             Array = false,
@@ -89,14 +93,15 @@ namespace dbc_export
 
                     continue;
                 }
-                
+
                 /** Must be localisation now, get the languages. */
                 Array languages = Enum.GetValues(typeof(Languages));
 
                 /** For each language add a new field that has the format "{field_name}_{language}" */
                 for (int i = 0; i < languages.Length; i++)
                 {
-                    newFields.Add(new Field {
+                    newFields.Add(new Field
+                    {
                         Name = String.Format("{0}_{1}", field.Name, languages.GetValue(i).ToString()),
                         Type = "string",
                         Array = false,
@@ -105,7 +110,8 @@ namespace dbc_export
                 }
 
                 /** Localisation always ends with a "Mask" field */
-                newFields.Add(new Field {
+                newFields.Add(new Field
+                {
                     Name = String.Format("{0}_Mask", field.Name),
                     Type = "uint",
                     Array = false,
@@ -137,7 +143,7 @@ namespace dbc_export
 
             MySqlDataReader result = query.ExecuteReader();
 
-            if (! result.HasRows) 
+            if (!result.HasRows)
             {
                 result.Close();
 
@@ -146,7 +152,6 @@ namespace dbc_export
 
             List<Entry> entries = new List<Entry>();
 
-            int rows = 0;
             while (result.Read())
             {
                 Entry entry = new Entry();
@@ -154,18 +159,15 @@ namespace dbc_export
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    entry.Values.Add(new Value {
+                    entry.Values.Add(new Value
+                    {
                         Field = definition.Fields[i],
                         Data = result[i],
                     });
                 }
 
                 entries.Add(entry);
-
-                rows++;
             }
-
-            Console.WriteLine("Retrieved {0} Rows for {1}", rows, definition.Name);
 
             result.Close();
 

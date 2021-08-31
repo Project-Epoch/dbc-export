@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using CLIHelpers;
 
 namespace dbc_export
 {
@@ -36,20 +37,20 @@ namespace dbc_export
             {
                 /** Write Initial Header */
                 Header header = new Header(
-                    (uint) entries.Count, 
-                    (uint) entries[0].Values.Count, 
-                    entries[0].CalculateSize(), 
+                    (uint)entries.Count,
+                    (uint)entries[0].Values.Count,
+                    entries[0].CalculateSize(),
                     0
                 );
                 header.StringBlockOffset = header.GetHeaderLength() + header.RecordCount * header.RecordSize;
                 header.Write(binaryWriter);
 
                 /** Write dummy string block */
-                binaryWriter.Seek((int) header.StringBlockOffset, SeekOrigin.Begin);
+                binaryWriter.Seek((int)header.StringBlockOffset, SeekOrigin.Begin);
                 binaryWriter.Write(Encoding.UTF8.GetBytes("\0"));
 
                 /** Go to end of header */
-                binaryWriter.Seek((int) header.GetHeaderLength(), SeekOrigin.Begin);
+                binaryWriter.Seek((int)header.GetHeaderLength(), SeekOrigin.Begin);
 
                 WriteFile(ref header, this.entries, binaryWriter);
 
@@ -59,12 +60,10 @@ namespace dbc_export
 
                 /** Save to disk */
                 memoryStream.Position = 0;
-				memoryStream.CopyTo(fileStream);
+                memoryStream.CopyTo(fileStream);
 
                 fileStream.Close();
             }
-
-            Console.WriteLine("Finished Writing to {0}", outputPath);
         }
 
         /// <summary>
@@ -75,82 +74,94 @@ namespace dbc_export
         /// <param name="binaryWriter">The binary stream we're writing out too. </param>
         private void WriteFile(ref Header header, List<Entry> entries, BinaryWriter binaryWriter)
         {
+            ProgressBar bar = new ProgressBar(60);
+            int total = entries.Count;
+            int current = 1;
+
             foreach (Entry entry in entries)
             {
                 foreach (object value in entry.Values)
                 {
-                    Value obj = (Value) value;
+                    Value obj = (Value)value;
 
                     try
                     {
                         switch (obj.Field.Type.ToLower())
                         {
                             case "sbyte":
-                                binaryWriter.Write((sbyte) obj.Data);
+                                binaryWriter.Write((sbyte)obj.Data);
                                 break;
                             case "byte":
-                                binaryWriter.Write((byte) obj.Data);
+                                binaryWriter.Write((byte)obj.Data);
                                 break;
                             case "int32":
                             case "int":
-                                binaryWriter.Write((int) Convert.ToInt32(obj.Data));
+                                binaryWriter.Write((int)Convert.ToInt32(obj.Data));
                                 break;
                             case "uint32":
                             case "uint":
-                                binaryWriter.Write((uint) Convert.ToUInt32(obj.Data));
+                                binaryWriter.Write((uint)Convert.ToUInt32(obj.Data));
                                 break;
                             case "int64":
                             case "long":
-                                binaryWriter.Write((long) obj.Data);
+                                binaryWriter.Write((long)obj.Data);
                                 break;
                             case "uint64":
                             case "ulong":
-                                binaryWriter.Write((ulong) obj.Data);
+                                binaryWriter.Write((ulong)obj.Data);
                                 break;
                             case "single":
                             case "float":
-                                binaryWriter.Write((float) obj.Data);
+                                binaryWriter.Write((float)obj.Data);
                                 break;
                             case "boolean":
                             case "bool":
-                                binaryWriter.Write((bool) obj.Data);
+                                binaryWriter.Write((bool)obj.Data);
                                 break;
                             case "string":
                                 if (obj.Data == DBNull.Value)
                                 {
-                                    obj.Data = (string) "";
+                                    obj.Data = (string)"";
                                 }
 
-                                string data = ((string) obj.Data).Replace("\'", "'");
+                                string data = ((string)obj.Data).Replace("\'", "'");
 
                                 binaryWriter.Write(header.StringBlockSize);
                                 long startPoint = binaryWriter.BaseStream.Position;
 
-                                binaryWriter.Seek((int) header.StringBlockOffset + (int) header.StringBlockSize, SeekOrigin.Begin);
+                                binaryWriter.Seek((int)header.StringBlockOffset + (int)header.StringBlockSize, SeekOrigin.Begin);
                                 string final = data + "\0";
                                 byte[] converted = Encoding.UTF8.GetBytes(final);
                                 binaryWriter.Write(converted);
-                                header.StringBlockSize += (uint) converted.Length;
-                                binaryWriter.Seek((int) startPoint, SeekOrigin.Begin);
+                                header.StringBlockSize += (uint)converted.Length;
+                                binaryWriter.Seek((int)startPoint, SeekOrigin.Begin);
 
                                 break;
                             case "int16":
                             case "short":
-                                binaryWriter.Write((short) obj.Data);
+                                binaryWriter.Write((short)obj.Data);
                                 break;
                             case "uint16":
                             case "ushort":
-                                binaryWriter.Write((ushort) obj.Data);
+                                binaryWriter.Write((ushort)obj.Data);
                                 break;
                         }
                     }
                     catch (System.InvalidCastException)
                     {
-                        Console.WriteLine("Failed to write field {0} to dbc type {1} from database type {2}", obj.Field.Name, obj.Field.Type, obj.Data.GetType());
+                        Logger.Danger(String.Format("Failed to write field {0} to dbc type {1} from database type {2}", obj.Field.Name, obj.Field.Type, obj.Data.GetType()));
                         throw;
                     }
                 }
+
+                double percentage = ((double)current / (double)total) * 100;
+
+                bar.Update((int)percentage);
+
+                current++;
             }
+
+            Console.WriteLine("\n");
         }
     }
 }

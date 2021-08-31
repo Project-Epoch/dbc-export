@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using MySqlConnector;
+using CLIHelpers;
 
 namespace dbc_export
 {
@@ -47,7 +48,7 @@ namespace dbc_export
                 this.world
             );
 
-            Console.WriteLine(String.Format("Attempting Connection with Details - {0}", credentials));
+            Logger.Info(String.Format("Attempting Connection with Details - {0}\n", credentials));
 
             this.connection = new MySqlConnection(credentials);
 
