@@ -187,6 +187,19 @@
             ]
         },
         {
+            "name": "MapDifficulty",
+            "table": "mapdifficulty_dbc",
+            "fields": [
+                {"name": "ID", "type": "int"},
+                {"name": "MapID", "type": "int"},
+                {"name": "Difficulty", "type": "int"},
+                {"name": "Message_Lang", "type": "loc"},
+                {"name": "RaidDuration", "type": "int"},
+                {"name": "MaxPlayers", "type": "int"},
+                {"name": "Difficultystring", "type": "string"}
+            ]
+        },
+        {
             "name": "Light",
             "table": "light_dbc",
             "fields": [
