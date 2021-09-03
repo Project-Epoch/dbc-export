@@ -141,9 +141,9 @@ namespace dbc_export
 
             string command = String.Format("SELECT {0} FROM {1}", fields, definition.Table);
 
-            if (definition.OrderBy != "none")
+            if (definition.Ordering != "none")
             {
-                command = String.Format("{0} ORDER BY {1} {2}", command, definition.OrderBy, definition.OrderDirection.ToUpper());
+                command = String.Format("{0} ORDER BY {1} {2}", command, definition.Ordering, definition.Direction.ToUpper());
             }
 
             MySqlCommand query = new MySqlCommand(command, connection);

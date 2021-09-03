@@ -77,8 +77,8 @@
         {
             "name": "AreaTrigger",
             "table": "areatrigger",
-            "order_by": "map",
-            "order_direction": "ASC", 
+            "ordering": "map",
+            "direction": "ASC", 
             "fields": [
                 {"name": "entry", "type": "int"},
                 {"name": "map", "type": "int"},
