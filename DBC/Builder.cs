@@ -139,7 +139,14 @@ namespace dbc_export
 
             fields = fields.Substring(0, fields.Length - 2); // Hacky. Removes the final comma and space.
 
-            MySqlCommand query = new MySqlCommand(String.Format("SELECT {0} FROM {1}", fields, definition.Table), connection);
+            string command = String.Format("SELECT {0} FROM {1}", fields, definition.Table);
+
+            if (definition.OrderBy != "none")
+            {
+                command = String.Format("{0} ORDER BY {1} {2}", command, definition.OrderBy, definition.OrderDirection.ToUpper());
+            }
+
+            MySqlCommand query = new MySqlCommand(command, connection);
 
             MySqlDataReader result = query.ExecuteReader();
 

@@ -24,5 +24,17 @@ namespace dbc_export
         /// </summary>
         /// <value></value>
         public List<Field> Fields { get; set; }
+
+        /// <summary>
+        /// The column we should order by when querying
+        /// </summary>
+        /// <value></value>
+        public string OrderBy { get; set; } = "none";
+
+        /// <summary>
+        /// The direction to sort the above column.
+        /// </summary>
+        /// <value></value>
+        public string OrderDirection { get; set; } = "none";
     }
 }
